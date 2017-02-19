@@ -1,9 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, LoadingController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { TabsPage } from '../pages/tabs/tabs';
-import { ContactPage } from '../pages/contact/contact';
+import { LoginPage } from '../pages/login/login';
+import { WeatherPage } from '../pages/weather/weather';
+import { LogoutPage } from '../pages/logout/logout';
+
+import { Auth } from '../providers/auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,16 +14,33 @@ import { ContactPage } from '../pages/contact/contact';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage = TabsPage;
+  private rootPage: any;
 
-  pages: Array<{title: string, component: any}>;
+  private pages: Array<{title: string, component: any}>;
 
-  constructor(platform: Platform) {
+  private loading: any;
+
+
+  constructor(public platform: Platform, public loadingCtrl: LoadingController, public authService : Auth) {
     this.initializeApp(platform);
 
     this.pages = [
-      { title: 'Contact', component: ContactPage }
+      {
+        title: 'Déconnexion',
+        component: LogoutPage
+      }
     ];
+
+    this.showLoader();
+
+    this.authService.checkAuthentification()
+      .then(res => {
+        this.loading.dismiss();
+        this.rootPage = WeatherPage;
+      }, err => {
+        this.loading.dismiss();
+        this.rootPage = LoginPage;
+      });
   }
 
   openPage(page) {
@@ -34,5 +54,13 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
     });
+  }
+
+  showLoader(){
+    this.loading = this.loadingCtrl.create({
+      content: 'Connexion en cours...'
+    });
+
+    this.loading.present();
   }
 }

@@ -1,18 +1,25 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
+import { Storage } from '@ionic/storage';
+
+// Pages
+import { LoginPage } from '../pages/login/login';
+import { LogoutPage } from '../pages/logout/logout';
+import { WeatherPage } from '../pages/weather/weather';
+
+// Providers
+import { HttpService } from '../providers/http-service';
+import { Auth } from '../providers/auth';
+import { User } from '../providers/user';
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
-    TabsPage
+    LoginPage,
+    WeatherPage,
+    LogoutPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -20,11 +27,25 @@ import { TabsPage } from '../pages/tabs/tabs';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
-    TabsPage
+    LoginPage,
+    WeatherPage,
+    LogoutPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: IonicErrorHandler
+    },
+    {
+      provide: HttpService,
+      useFactory: (backend: XHRBackend, options: RequestOptions) => {
+        return new HttpService(backend, options);
+      },
+      deps: [XHRBackend, RequestOptions]
+    },
+    Storage,
+    Auth,
+    User,
+  ]
 })
 export class AppModule {}
