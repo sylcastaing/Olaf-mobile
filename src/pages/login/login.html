@@ -13,16 +13,23 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label><ion-icon name="mail"></ion-icon></ion-label>
-      <ion-input [(ngModel)]="credentials.email" type="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label><ion-icon name="lock"></ion-icon></ion-label>
-      <ion-input [(ngModel)]="credentials.password" type="password"></ion-input>
-    </ion-item>
+  <p color="danger" text-center>{{ loginError }}</p>
+  <ion-list no-lines>
+    <form [formGroup]="loginForm">
+      <ion-item>
+        <ion-label floating><ion-icon name="archive" padding-right></ion-icon>Serveur</ion-label>
+        <ion-input formControlName="server" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating><ion-icon name="mail" padding-right></ion-icon>Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating><ion-icon name="lock" padding-right></ion-icon>Mot de passe</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+    </form>
   </ion-list>
 
-  <button ion-button full (click)="login()" color="primary" class="login-button">Connexion</button>
+  <button ion-button full [disabled]="!loginForm.valid" (click)="login()" color="primary" class="login-button">Connexion</button>
 </ion-content>

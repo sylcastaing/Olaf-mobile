@@ -36,14 +36,19 @@ export class Auth {
 
   login(credentials) {
     return new Promise((resolve, reject) => {
-      this.http.post('http://192.168.0.15:9000/auth/local', credentials)
+      this.http.post('http://localhost:8100/auth/local', credentials)
       .map(res => res.json())
       .subscribe(res => {
         this.http.token = res.token;
         this.storage.set('token', res.token);
         resolve(res);
       }, err => {
-        reject(err);
+        if (err.status === 401) {
+          reject(JSON.parse(err._body));
+        }
+        else {
+          reject(err);
+        }
       });
     });
   }

@@ -17,7 +17,7 @@ export class User {
   }
 
   get() {
-    return this.httpService.get('http://192.168.0.15:9000/api/users/me');
+    return this.httpService.get('http://localhost:8100/api/users/me');
   }
 
 }
