@@ -27,6 +27,10 @@ export class MyApp {
 
     this.pages = [
       {
+        title: 'Météo',
+        component: WeatherPage
+      },
+      {
         title: 'Déconnexion',
         component: LogoutPage
       }
