@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuController, NavController, LoadingController } from 'ionic-angular';
-import { Auth } from '../../providers/auth';
+
 import { WeatherPage } from '../weather/weather';
+
+import { Auth } from '../../providers/auth';
+import { HttpService } from '../../providers/http-service';
 
 @Component({
   selector: 'page-login',
@@ -15,9 +18,9 @@ export class LoginPage {
 
   public loginError: String;
 
-  constructor(public menu: MenuController, public navCtrl: NavController, public loadingCtrl: LoadingController, public authService: Auth, public formBuilder: FormBuilder) {
+  constructor(public menu: MenuController, public navCtrl: NavController, public loadingCtrl: LoadingController, public authService: Auth, public http: HttpService, public formBuilder: FormBuilder) {
     this.loginForm = formBuilder.group({
-      server: ['', Validators.required],
+      server: [this.http.getApiUrl(), Validators.required],
       email: ['', Validators.compose([Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$'), Validators.required])],
       password: ['', Validators.required]
     });
@@ -27,17 +30,20 @@ export class LoginPage {
 
   login() {
     this.showLoader();
-
-    this.authService.login({
-      email: this.loginForm.controls['email'].value,
-      password: this.loginForm.controls['password'].value
-    })
+    this.loginError = '';
+    this.authService.login(this.loginForm.value)
       .then(result => {
         this.loading.dismiss();
         this.menu.enable(true);
         this.navCtrl.setRoot(WeatherPage);
       }, err => {
-        this.loginError = err.message;
+        if (err.message && err.message !== 'timeout') {
+          this.loginError = err.message;
+        }
+        else {
+          this.loginError = 'Impossible de se connecter au serveur. Veuillez vérifier l\'URL d\'accès.';
+        }
+        
         this.loading.dismiss();
       });
   }

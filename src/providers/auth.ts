@@ -20,23 +20,21 @@ export class Auth {
 
   checkAuthentification() {
     return new Promise((resolve, reject) => {
-      this.storage.get('token').then((value) => {
-
-        this.http.token = value;
-
-        this.user.get()
-          .subscribe(res => {
-            resolve(res);
-          }, err => {
-            reject(err);
-          });
-      });
+      this.user.get()
+        .subscribe(res => {
+          resolve(res);
+        }, err => {
+          reject(err);
+        });
     });
   }
 
   login(credentials) {
+    this.http.setApiUrl(credentials.server);
+    delete credentials.server;
+
     return new Promise((resolve, reject) => {
-      this.http.post('http://localhost:8100/auth/local', credentials)
+      this.http.post('/auth/local', credentials)
       .map(res => res.json())
       .subscribe(res => {
         this.http.token = res.token;

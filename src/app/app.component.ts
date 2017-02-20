@@ -6,6 +6,7 @@ import { LoginPage } from '../pages/login/login';
 import { WeatherPage } from '../pages/weather/weather';
 import { LogoutPage } from '../pages/logout/logout';
 
+import { HttpService } from '../providers/http-service';
 import { Auth } from '../providers/auth';
 
 @Component({
@@ -21,7 +22,7 @@ export class MyApp {
   private loading: any;
 
 
-  constructor(public platform: Platform, public loadingCtrl: LoadingController, public authService : Auth) {
+  constructor(public platform: Platform, public loadingCtrl: LoadingController, public authService: Auth, public http: HttpService) {
     this.initializeApp(platform);
 
     this.pages = [
@@ -30,17 +31,6 @@ export class MyApp {
         component: LogoutPage
       }
     ];
-
-    this.showLoader();
-
-    this.authService.checkAuthentification()
-      .then(res => {
-        this.loading.dismiss();
-        this.rootPage = WeatherPage;
-      }, err => {
-        this.loading.dismiss();
-        this.rootPage = LoginPage;
-      });
   }
 
   openPage(page) {
@@ -53,7 +43,20 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
-    });
+
+      this.showLoader();
+
+      this.http.init(() => {
+        this.authService.checkAuthentification()
+          .then(res => {
+            this.loading.dismiss();
+            this.rootPage = WeatherPage;
+          }, err => {
+            this.loading.dismiss();
+            this.rootPage = LoginPage;
+          });
+        });
+      });
   }
 
   showLoader(){
@@ -63,4 +66,6 @@ export class MyApp {
 
     this.loading.present();
   }
+
+  ready
 }

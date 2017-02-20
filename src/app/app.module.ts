@@ -1,5 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { Http, XHRBackend, RequestOptions } from '@angular/http';
+import { XHRBackend, RequestOptions } from '@angular/http';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Storage } from '@ionic/storage';
@@ -36,14 +36,14 @@ import { User } from '../providers/user';
       provide: ErrorHandler,
       useClass: IonicErrorHandler
     },
+    Storage,
     {
       provide: HttpService,
-      useFactory: (backend: XHRBackend, options: RequestOptions) => {
-        return new HttpService(backend, options);
+      useFactory: (backend: XHRBackend, options: RequestOptions, storage: Storage) => {
+        return new HttpService(backend, options, storage);
       },
-      deps: [XHRBackend, RequestOptions]
+      deps: [XHRBackend, RequestOptions, Storage]
     },
-    Storage,
     Auth,
     User,
   ]
