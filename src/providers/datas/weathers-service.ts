@@ -38,4 +38,16 @@ export class WeathersService extends DatasService {
       .catch(this.handleError);
   }
 
+  /**
+   * getLastIndoorTemp
+   * 
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
+  getLastIndoorTemp() {
+    return this.http.get('/api/weathers/indoorTemp/last')
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 }

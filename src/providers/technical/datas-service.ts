@@ -29,8 +29,7 @@ export abstract class DatasService {
    * @memberOf DatasService
    */
   protected extractData(res: Response) : any {
-    let body = res.json();
-    return body.data || {};
+    return res.json() || {};
   }
 
   /**
