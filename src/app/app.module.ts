@@ -8,8 +8,8 @@ import { Storage } from '@ionic/storage';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { WeatherPage } from '../pages/weather/weather';
-import { IndoorTempPage } from '../pages/weather/indoorTemp/indoorTemp';
-import { OutdoorTempPage } from '../pages/weather/outdoorTemp/outdoorTemp';
+import { IndoorTempPage } from '../pages/weather/temperature/indoorTemp';
+import { OutdoorTempPage } from '../pages/weather/temperature/outdoorTemp';
 import { PressurePage } from '../pages/weather/pressure/pressure';
 
 // Providers

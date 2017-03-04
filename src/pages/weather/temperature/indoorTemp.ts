@@ -5,7 +5,7 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
 
 @Component({
   selector: 'page-indoorTemp',
-  templateUrl: 'indoorTemp.html'
+  templateUrl: 'temperature.html'
 })
 export class IndoorTempPage {
 

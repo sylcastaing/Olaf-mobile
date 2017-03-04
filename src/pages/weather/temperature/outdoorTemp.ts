@@ -5,11 +5,11 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
 
 @Component({
   selector: 'page-outdoorTemp',
-  templateUrl: 'outdoorTemp.html'
+  templateUrl: 'temperature.html'
 })
 export class OutdoorTempPage {
 
-    public temperature: any;
+  public temperature: any;
 
   /**
    * Creates an instance of OutdoorTempPage.

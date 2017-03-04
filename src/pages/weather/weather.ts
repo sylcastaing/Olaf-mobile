@@ -3,8 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { WeathersService } from '../../providers/datas/weathers-service';
 
-import { IndoorTempPage } from './indoorTemp/indoorTemp';
-import { OutdoorTempPage } from './outdoorTemp/outdoorTemp';
+import { IndoorTempPage } from './temperature/indoorTemp';
+import { OutdoorTempPage } from './temperature/outdoorTemp';
 import { PressurePage } from './pressure/pressure';
 
 @Component({
