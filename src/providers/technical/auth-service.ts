@@ -1,26 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { Storage } from '@ionic/storage';
-import { User } from './user';
+import { UsersService } from '../datas/users-service';
 
 import 'rxjs/add/operator/map';
 
-/*
-  Generated class for the Auth provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
+/**
+ * Authentication service
+ * 
+ * @export
+ * @class AuthService
+ */
 @Injectable()
-export class Auth {
+export class AuthService {
 
-  constructor(public http: HttpService, public storage: Storage, public user: User) {
+  /**
+   * Creates an instance of Auth.
+   * @param {HttpService} http 
+   * @param {Storage} storage 
+   * @param {User} user 
+   * 
+   * @memberOf Auth
+   */
+  constructor(public http: HttpService, public storage: Storage, public usersService: UsersService) {
     
   }
 
+  /**
+   * Check is user is authenticated
+   * 
+   * @returns Promise
+   * 
+   * @memberOf Auth
+   */
   checkAuthentification() {
     return new Promise((resolve, reject) => {
-      this.user.get()
+      this.usersService.me()
         .subscribe(res => {
           resolve(res);
         }, err => {
@@ -29,6 +44,14 @@ export class Auth {
     });
   }
 
+  /**
+   * Login function
+   * 
+   * @param {any} credentials 
+   * @returns Promise
+   * 
+   * @memberOf Auth
+   */
   login(credentials) {
     this.http.setApiUrl(credentials.server);
     delete credentials.server;
@@ -51,6 +74,11 @@ export class Auth {
     });
   }
 
+  /**
+   * Logout function
+   * 
+   * @memberOf Auth
+   */
   logout() {
     this.http.token = "";
     this.storage.remove('token');

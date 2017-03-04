@@ -4,22 +4,38 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
-/*
-  Generated class for the HttpService provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
-*/
+/**
+ * Custom Http Service for token and server address
+ * 
+ * @export
+ * @class HttpService
+ * @extends {Http}
+ */
 @Injectable()
 export class HttpService extends Http {
 
   private apiUrl: any;
   public token: any;
 
+  /**
+   * Creates an instance of HttpService.
+   * @param {ConnectionBackend} backend 
+   * @param {RequestOptions} defaultOptions 
+   * @param {Storage} storage 
+   * 
+   * @memberOf HttpService
+   */
   constructor(public backend: ConnectionBackend, public defaultOptions: RequestOptions, public storage: Storage) {
     super(backend, defaultOptions);
   }
 
+  /**
+   * Init the HttpService with datas from storage
+   * 
+   * @param {any} cb
+   * 
+   * @memberOf HttpService
+   */
   init(cb) {
     Observable.forkJoin([this.storage.get('apiUrl'), this.storage.get('token')])
       .subscribe((datas) => {
@@ -29,6 +45,15 @@ export class HttpService extends Http {
       });
   }
 
+  /**
+   * Injection of token and apiUrl
+   * 
+   * @param {(string|Request)} url 
+   * @param {RequestOptionsArgs} [options] 
+   * @returns {Observable<Response>} 
+   * 
+   * @memberOf HttpService
+   */
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
     if (this.apiUrl !== undefined) {
       if (typeof url === 'string') {
@@ -52,7 +77,11 @@ export class HttpService extends Http {
   }
 
   /**
-   * Set the api url
+   * Change apiUrl
+   * 
+   * @param {String} newApiUrl 
+   * 
+   * @memberOf HttpService
    */
   setApiUrl(newApiUrl: String) {
     // Check if api url is correct
@@ -66,6 +95,13 @@ export class HttpService extends Http {
     }
   }
 
+  /**
+   * Get ApiUrl
+   * 
+   * @returns {String} 
+   * 
+   * @memberOf HttpService
+   */
   getApiUrl(): String {
     return this.apiUrl;
   }

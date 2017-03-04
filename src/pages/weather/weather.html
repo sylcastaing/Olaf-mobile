@@ -17,5 +17,9 @@
 
 
 <ion-content padding>
-
+  <ion-tabs>
+    <ion-tab [root]="indoorTemp" tabIcon="home" tabTitle="Intérieur" swipeBackEnabled></ion-tab>
+    <ion-tab [root]="outdoorTemp" tabIcon="thermometer" tabTitle="Extérieur" swipeBackEnabled></ion-tab>
+    <ion-tab [root]="pressure" tabIcon="sunny" tabTitle="Pression" swipeBackEnabled></ion-tab>
+  </ion-tabs>
 </ion-content>

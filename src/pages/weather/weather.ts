@@ -1,22 +1,34 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-/*
-  Generated class for the Weather page.
+import { WeathersService } from '../../providers/datas/weathers-service';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { IndoorTempPage } from './indoorTemp/indoorTemp';
+import { OutdoorTempPage } from './outdoorTemp/outdoorTemp';
+import { PressurePage } from './pressure/pressure';
+
 @Component({
   selector: 'page-weather',
   templateUrl: 'weather.html'
 })
 export class WeatherPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  public indoorTemp = IndoorTempPage;
+  public outdoorTemp = OutdoorTempPage;
+  public pressure = PressurePage;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad WeatherPage');
+  public weathers: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public weathersService: WeathersService) {
+    var todayDate = new Date();
+    var yesterdayDate = new Date().setDate(todayDate.getDate() - 1);
+
+    this.weathersService.get(yesterdayDate, todayDate.getTime())
+      .subscribe(weathers => this.weathers = weathers);
+  }
+
+  getLastIndoorTemp() {
+
   }
 
 }

@@ -8,18 +8,25 @@ import { Storage } from '@ionic/storage';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { WeatherPage } from '../pages/weather/weather';
+import { IndoorTempPage } from '../pages/weather/indoorTemp/indoorTemp';
+import { OutdoorTempPage } from '../pages/weather/outdoorTemp/outdoorTemp';
+import { PressurePage } from '../pages/weather/pressure/pressure';
 
 // Providers
-import { HttpService } from '../providers/http-service';
-import { Auth } from '../providers/auth';
-import { User } from '../providers/user';
+import { HttpService } from '../providers/technical/http-service';
+import { AuthService } from '../providers/technical/auth-service';
+import { UsersService } from '../providers/datas/users-service';
+import { WeathersService } from '../providers/datas/weathers-service';
 
 @NgModule({
   declarations: [
     MyApp,
     LoginPage,
     WeatherPage,
-    LogoutPage
+    LogoutPage,
+    IndoorTempPage,
+    OutdoorTempPage,
+    PressurePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -29,7 +36,10 @@ import { User } from '../providers/user';
     MyApp,
     LoginPage,
     WeatherPage,
-    LogoutPage
+    LogoutPage,
+    IndoorTempPage,
+    OutdoorTempPage,
+    PressurePage
   ],
   providers: [
     {
@@ -44,8 +54,9 @@ import { User } from '../providers/user';
       },
       deps: [XHRBackend, RequestOptions, Storage]
     },
-    Auth,
-    User,
+    AuthService,
+    UsersService,
+    WeathersService
   ]
 })
 export class AppModule {}

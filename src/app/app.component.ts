@@ -6,8 +6,8 @@ import { LoginPage } from '../pages/login/login';
 import { WeatherPage } from '../pages/weather/weather';
 import { LogoutPage } from '../pages/logout/logout';
 
-import { HttpService } from '../providers/http-service';
-import { Auth } from '../providers/auth';
+import { HttpService } from '../providers/technical/http-service';
+import { AuthService } from '../providers/technical/auth-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,7 +22,7 @@ export class MyApp {
   private loading: any;
 
 
-  constructor(public platform: Platform, public loadingCtrl: LoadingController, public authService: Auth, public http: HttpService) {
+  constructor(public platform: Platform, public loadingCtrl: LoadingController, public authService: AuthService, public http: HttpService) {
     this.initializeApp(platform);
 
     this.pages = [

@@ -4,8 +4,8 @@ import { MenuController, NavController, LoadingController } from 'ionic-angular'
 
 import { WeatherPage } from '../weather/weather';
 
-import { Auth } from '../../providers/auth';
-import { HttpService } from '../../providers/http-service';
+import { AuthService } from '../../providers/technical/auth-service';
+import { HttpService } from '../../providers/technical/http-service';
 
 @Component({
   selector: 'page-login',
@@ -18,7 +18,7 @@ export class LoginPage {
 
   public loginError: String;
 
-  constructor(public menu: MenuController, public navCtrl: NavController, public loadingCtrl: LoadingController, public authService: Auth, public http: HttpService, public formBuilder: FormBuilder) {
+  constructor(public menu: MenuController, public navCtrl: NavController, public loadingCtrl: LoadingController, public authService: AuthService, public http: HttpService, public formBuilder: FormBuilder) {
     this.loginForm = formBuilder.group({
       server: [this.http.getApiUrl(), Validators.required],
       email: ['', Validators.compose([Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$'), Validators.required])],
