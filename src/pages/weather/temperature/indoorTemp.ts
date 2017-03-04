@@ -21,7 +21,7 @@ export class IndoorTempPage {
    */
   constructor(public navCtrl: NavController, public navParams: NavParams, public weathersService: WeathersService) {
     this.weathersService.getLastIndoorTemp()
-      .subscribe(data =>  {
+      .subscribe(data => {
         this.temperature = data
       });
   }

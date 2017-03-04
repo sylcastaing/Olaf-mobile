@@ -51,8 +51,28 @@ export class WeathersService extends DatasService {
       .catch(this.handleError);
   }
 
+  /**
+   * getLastOutdoorTemp
+   * 
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
   getLastOutdoorTemp() {
     return this.http.get('/api/weathers/outdoorTemp/last')
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  /**
+   * getLastPressure
+   * 
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
+  getLastPressure() {
+    return this.http.get('/api/weathers/pressure/last')
       .map(this.extractData)
       .catch(this.handleError);
   }

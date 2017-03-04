@@ -1,3 +1,12 @@
 <ion-content padding>
-
+  <div padding-vertical="20px" padding-horizontal="10px">
+    <div class="circle-content">
+      <div class="circle" *ngIf="pressure" [temp-color]="pressure.value">
+        <div class="pressure">
+          <ion-icon name="cloud"></ion-icon>
+          <div>{{ formattedPressure }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>
