@@ -50,4 +50,10 @@ export class WeathersService extends DatasService {
       .map(this.extractData)
       .catch(this.handleError);
   }
+
+  getLastOutdoorTemp() {
+    return this.http.get('/api/weathers/outdoorTemp/last')
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 }
