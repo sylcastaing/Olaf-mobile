@@ -3,7 +3,10 @@
     <div class="circle-content">
       <div class="circle" *ngIf="pressure" [temp-color]="pressure.value">
         <div class="pressure">
-          <ion-icon name="cloud"></ion-icon>
+          <ion-icon name="sunny" *ngIf="pressure.value >= 1020"></ion-icon>
+          <ion-icon name="cloudy" *ngIf="(pressure.value >= 1013) && (pressure.value < 1020)"></ion-icon>
+          <ion-icon name="rainy" *ngIf="(pressure.value >= 1006) && (pressure.value < 1013)"></ion-icon>
+          <ion-icon name="thunderstorm" *ngIf="pressure.value < 1006"></ion-icon>
           <div>{{ formattedPressure }}</div>
         </div>
       </div>
