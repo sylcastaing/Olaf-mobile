@@ -18,4 +18,14 @@ export class IndoorTempPage {
         this.temperature = data
       });
   }
+
+  get formattedTemperature() {
+    var retour = "";
+
+    if (this.temperature !== undefined && this.temperature.value !== undefined) {
+      retour = this.temperature.value.toString() + '°C';
+    }
+
+    return retour;
+  }
 }

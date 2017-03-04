@@ -1,3 +1,24 @@
 page-weather {
+  .circle-content {
+    max-width: 300px;
+    margin: 30px auto;
+    text-align: center;
 
+    .circle {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      text-align: center;
+      border-radius: 50%;
+
+      .circle-txt {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        margin-top: -35px;
+        font-size: 60px;
+      }
+    }
+  }
+ 
 }

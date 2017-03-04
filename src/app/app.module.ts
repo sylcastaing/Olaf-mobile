@@ -18,6 +18,9 @@ import { AuthService } from '../providers/technical/auth-service';
 import { UsersService } from '../providers/datas/users-service';
 import { WeathersService } from '../providers/datas/weathers-service';
 
+// Directives
+import { TempColor } from '../components/temp-color';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -26,7 +29,8 @@ import { WeathersService } from '../providers/datas/weathers-service';
     LogoutPage,
     IndoorTempPage,
     OutdoorTempPage,
-    PressurePage
+    PressurePage,
+    TempColor
   ],
   imports: [
     IonicModule.forRoot(MyApp)
