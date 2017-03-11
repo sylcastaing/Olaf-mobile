@@ -25,6 +25,23 @@ export class PressurePage {
         this.pressure = data
       });
     
+    this.weathersService.getUpdates('pressure')
+      .subscribe(data => {
+        if (data.type === 'indoorTemp') {
+          this.pressure = data;
+
+          if (this.pressure.value < this.extreme.min.value) {
+            this.extreme.min.value = this.pressure.value;
+            this.extreme.min.date = new Date();
+          }
+
+          if (this.pressure.value > this.extreme.max.value) {
+            this.extreme.max.value = this.pressure.value;
+            this.extreme.max.date = new Date();
+          }
+        }
+      });
+
     this.weathersService.getExtremePressure()
       .subscribe(data => {
         this.extreme = data;

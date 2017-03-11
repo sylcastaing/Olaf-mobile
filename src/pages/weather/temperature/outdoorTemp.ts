@@ -25,6 +25,23 @@ export class OutdoorTempPage {
       .subscribe(data =>  {
         this.temperature = data
       });
+    
+    this.weathersService.getUpdates('weather')
+      .subscribe(data => {
+        if (data.type === 'outdoorTemp') {
+          this.temperature = data;
+
+          if (this.temperature.value < this.extreme.min.value) {
+            this.extreme.min.value = this.temperature.value;
+            this.extreme.min.date = new Date();
+          }
+
+          if (this.temperature.value > this.extreme.max.value) {
+            this.extreme.max.value = this.temperature.value;
+            this.extreme.max.date = new Date();
+          }
+        }
+      });
 
     this.weathersService.getExtremeOutdoorTemp()
       .subscribe(data => {
