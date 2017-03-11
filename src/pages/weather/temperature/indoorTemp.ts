@@ -10,7 +10,7 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
 export class IndoorTempPage {
 
   public temperature: any;
-
+  public extreme: any;
   /**
    * Creates an instance of IndoorTempPage.
    * @param {NavController} navCtrl 
@@ -23,6 +23,28 @@ export class IndoorTempPage {
     this.weathersService.getLastIndoorTemp()
       .subscribe(data => {
         this.temperature = data
+      });
+
+    this.weathersService.getUpdates('weather')
+      .subscribe(data => {
+        if (data.type === 'indoorTemp') {
+          this.temperature = data;
+
+          if (this.temperature.value < this.extreme.min.value) {
+            this.extreme.min.value = this.temperature.value;
+            this.extreme.min.date = new Date();
+          }
+
+          if (this.temperature.value > this.extreme.max.value) {
+            this.extreme.max.value = this.temperature.value;
+            this.extreme.max.date = new Date();
+          }
+        }
+      });
+
+    this.weathersService.getExtremeIndoorTemp()
+      .subscribe(data => {
+        this.extreme = data;
       });
   }
 

@@ -10,6 +10,7 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
 export class OutdoorTempPage {
 
   public temperature: any;
+  public extreme: any;
 
   /**
    * Creates an instance of OutdoorTempPage.
@@ -23,6 +24,11 @@ export class OutdoorTempPage {
     this.weathersService.getLastOutdoorTemp()
       .subscribe(data =>  {
         this.temperature = data
+      });
+
+    this.weathersService.getExtremeOutdoorTemp()
+      .subscribe(data => {
+        this.extreme = data;
       });
   }
 

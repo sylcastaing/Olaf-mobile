@@ -53,7 +53,7 @@ export class AuthService {
    * @memberOf Auth
    */
   login(credentials) {
-    this.http.setApiUrl(credentials.server);
+    this.http.apiUrl = credentials.server;
     delete credentials.server;
 
     return new Promise((resolve, reject) => {

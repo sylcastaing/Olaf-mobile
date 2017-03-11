@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, ConnectionBackend, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
+
 import 'rxjs/add/operator/map';
+
+import * as io from 'socket.io-client';
 
 /**
  * Custom Http Service for token and server address
@@ -14,8 +17,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HttpService extends Http {
 
-  private apiUrl: any;
-  public token: any;
+  private _apiUrl;
+  private _token;
 
   /**
    * Creates an instance of HttpService.
@@ -39,8 +42,8 @@ export class HttpService extends Http {
   init(cb) {
     Observable.forkJoin([this.storage.get('apiUrl'), this.storage.get('token')])
       .subscribe((datas) => {
-        this.apiUrl = datas[0];
-        this.token = datas[1];
+        this._apiUrl = datas[0];
+        this._token = datas[1];
         cb();
       });
   }
@@ -55,17 +58,17 @@ export class HttpService extends Http {
    * @memberOf HttpService
    */
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-    if (this.apiUrl !== undefined) {
+    if (this._apiUrl !== undefined) {
       if (typeof url === 'string') {
         if (!options) {
           options = {headers: new Headers()};
         }
-        options.headers.set('Authorization', `Bearer ${this.token}`);
-        url = this.apiUrl + url;
+        options.headers.set('Authorization', `Bearer ${this._token}`);
+        url = this._apiUrl + url;
 
       } else {
-        url.headers.set('Authorization', `Bearer ${this.token}`);
-        url.url = this.apiUrl + url.url;
+        url.headers.set('Authorization', `Bearer ${this._token}`);
+        url.url = this._apiUrl + url.url;
       }
 
       return super.request(url, options).timeout(3000);
@@ -79,19 +82,19 @@ export class HttpService extends Http {
   /**
    * Change apiUrl
    * 
-   * @param {String} newApiUrl 
+   * @param {any} newApiUrl 
    * 
    * @memberOf HttpService
    */
-  setApiUrl(newApiUrl: String) {
+  set apiUrl(newApiUrl: any) {
     // Check if api url is correct
-    if (newApiUrl !== undefined && newApiUrl !== null && newApiUrl !== this.apiUrl) {
+    if (newApiUrl !== undefined && newApiUrl !== null && newApiUrl !== this._apiUrl) {
       if (!newApiUrl.startsWith('http://') && !newApiUrl.startsWith('https://')) {
         newApiUrl = 'http://' + newApiUrl;
       }
 
-      this.apiUrl = newApiUrl;
       this.storage.set('apiUrl', newApiUrl);
+      this._apiUrl = newApiUrl;
     }
   }
 
@@ -102,7 +105,18 @@ export class HttpService extends Http {
    * 
    * @memberOf HttpService
    */
-  getApiUrl(): String {
-    return this.apiUrl;
+  get apiUrl(): any {
+    return this._apiUrl;
+  }
+
+  set token(newToken: any) {
+    this._token = newToken;
+  }
+
+  get socket(): any {
+    return io(this._apiUrl, {
+      ws: true,
+      query: 'token=' + this._token
+    });
   }
 }

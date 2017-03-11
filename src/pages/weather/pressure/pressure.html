@@ -1,5 +1,5 @@
 <ion-content padding>
-  <div padding-vertical="20px" padding-horizontal="10px">
+  <div padding-vertical="15px" padding-horizontal="10px">
     <div class="circle-content">
       <div class="circle" *ngIf="pressure" [temp-color]="pressure.value">
         <div class="pressure">
@@ -11,5 +11,21 @@
         </div>
       </div>
     </div>
+    <ion-row *ngIf="extreme" padding-top="20px" class="extreme">
+      <ion-col text-center class="pastel-blue">
+        <ion-icon name="arrow-down"></ion-icon>
+        <div padding-vertical="5px" *ngIf="extreme.min">
+          <div>{{ extreme.min.value }} hPa</div>
+          <div class="date" padding-vertical="5px"> {{ extreme.min.date | date:'HH:mm'}} </div>
+        </div>
+      </ion-col>
+      <ion-col text-center class="light-orange">
+        <ion-icon name="arrow-up"></ion-icon>
+        <div padding-vertical="5px" *ngIf="extreme.max">
+          <div> {{ extreme.max.value }} hPa</div>
+          <div class="date" padding-vertical="5px"> {{ extreme.max.date | date:'HH:mm'}} </div>
+        </div>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

@@ -5,5 +5,21 @@
         <div class="temperature">{{ formattedTemperature }}</div>
       </div>
     </div>
+    <ion-row *ngIf="extreme" padding-top="20px" class="extreme">
+      <ion-col text-center class="pastel-blue">
+        <ion-icon name="snow"></ion-icon>
+        <div padding-vertical="5px" *ngIf="extreme.min">
+          <div>{{ extreme.min.value }}°C</div>
+          <div class="date" padding-vertical="5px"> {{ extreme.min.date | date:'HH:mm'}} </div>
+        </div>
+      </ion-col>
+      <ion-col text-center class="light-orange">
+        <ion-icon name="sunny"></ion-icon>
+        <div padding-vertical="5px" *ngIf="extreme.max">
+          <div> {{ extreme.max.value }}°C </div>
+          <div class="date" padding-vertical="5px"> {{ extreme.max.date | date:'HH:mm'}} </div>
+        </div>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

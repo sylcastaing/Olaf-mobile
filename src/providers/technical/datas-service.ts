@@ -1,6 +1,8 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
+import { HttpService } from '../technical/http-service';
+
 /**
  * Custom Service Class
  * 
@@ -15,7 +17,7 @@ export abstract class DatasService {
    * 
    * @memberOf DatasService
    */
-  constructor() {
+  constructor(public http: HttpService) {
 
   }
 
@@ -52,5 +54,19 @@ export abstract class DatasService {
     }
 
     return Observable.throw(errMsg);
+  }
+
+  public getUpdates(modelName: String) : Observable<any> {
+    let observable = new Observable(observer => {
+      var socket = this.http.socket;
+      socket.on(modelName + ':save', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        socket.disconnect();
+      };
+    });
+
+    return observable;
   }
 }

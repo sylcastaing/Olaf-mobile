@@ -10,6 +10,7 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
 export class PressurePage {
 
   public pressure: any;
+  public extreme: any;
 
   /**
    * Creates an instance of PressurePage.
@@ -22,6 +23,11 @@ export class PressurePage {
     this.weathersService.getLastPressure()
       .subscribe(data => {
         this.pressure = data
+      });
+    
+    this.weathersService.getExtremePressure()
+      .subscribe(data => {
+        this.extreme = data;
       });
   }
 

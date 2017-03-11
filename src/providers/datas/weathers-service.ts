@@ -20,7 +20,7 @@ export class WeathersService extends DatasService {
    * @memberOf WeathersService
    */
   constructor(public http: HttpService) {
-    super();
+    super(http);
   }
 
   /**
@@ -52,6 +52,19 @@ export class WeathersService extends DatasService {
   }
 
   /**
+   * getExtremeIndoorTemp
+   * 
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
+  getExtremeIndoorTemp() {
+    return this.http.get('/api/weathers/indoorTemp/' + this.getExtremeUrl())
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  /**
    * getLastOutdoorTemp
    * 
    * @returns 
@@ -60,6 +73,19 @@ export class WeathersService extends DatasService {
    */
   getLastOutdoorTemp() {
     return this.http.get('/api/weathers/outdoorTemp/last')
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  /**
+   * getExtremeOutdoorTemp
+   * 
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
+  getExtremeOutdoorTemp() {
+    return this.http.get('/api/weathers/outdoorTemp/' + this.getExtremeUrl())
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -75,5 +101,30 @@ export class WeathersService extends DatasService {
     return this.http.get('/api/weathers/pressure/last')
       .map(this.extractData)
       .catch(this.handleError);
+  }
+
+  /**
+   * getExtremePressure
+   * 
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
+  getExtremePressure() {
+    return this.http.get('/api/weathers/pressure/' + this.getExtremeUrl())
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  /**
+   * getExtremeUrl
+   * 
+   * @private
+   * @returns 
+   * 
+   * @memberOf WeathersService
+   */
+  private getExtremeUrl(): String {
+    return new Date().setHours(0,0,0,0) + '/' + new Date().getTime() + '/extreme';
   }
 }

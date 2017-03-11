@@ -20,7 +20,7 @@ export class LoginPage {
 
   constructor(public menu: MenuController, public navCtrl: NavController, public loadingCtrl: LoadingController, public authService: AuthService, public http: HttpService, public formBuilder: FormBuilder) {
     this.loginForm = formBuilder.group({
-      server: [this.http.getApiUrl(), Validators.required],
+      server: [this.http.apiUrl, Validators.required],
       email: ['', Validators.compose([Validators.pattern('^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$'), Validators.required])],
       password: ['', Validators.required]
     });
