@@ -1,18 +1,22 @@
 {
   "name": "Olaf",
   "app_id": "",
-  "v2": true,
-  "typescript": true,
   "proxies": [
     {
-        "path": "/api",
-        "proxyUrl": "http://127.0.0.1:9000/api"
-    }, {
-        "path": "/auth",
-        "proxyUrl": "http://127.0.0.1:9000/auth"
-    }, {
-        "path": "/socket.io",
-        "proxyUrl": "http://127.0.0.1:9000/socket.io"
+      "path": "/api",
+      "proxyUrl": "http://127.0.0.1:9000/api"
+    },
+    {
+      "path": "/auth",
+      "proxyUrl": "http://127.0.0.1:9000/auth"
+    },
+    {
+      "path": "/socket.io",
+      "proxyUrl": "http://127.0.0.1:9000/socket.io"
     }
-]
+  ],
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
 }

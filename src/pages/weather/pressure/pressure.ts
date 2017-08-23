@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { WeathersService } from '../../../providers/datas/weathers-service';
@@ -7,7 +7,7 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
   selector: 'page-pressure',
   templateUrl: 'pressure.html'
 })
-export class PressurePage {
+export class PressurePage implements OnDestroy {
 
   public pressure: any;
   public extreme: any;
@@ -25,7 +25,9 @@ export class PressurePage {
         this.pressure = data
       });
     
-    this.weathersService.getUpdates('pressure')
+    this.weathersService.joinRoom('weather');
+    
+    this.weathersService.getUpdates('pressure', ':save')
       .subscribe(data => {
         if (data.type === 'indoorTemp') {
           this.pressure = data;
@@ -63,5 +65,12 @@ export class PressurePage {
     }
 
     return retour;
+  }
+
+  /**
+   * Leave socket room on Destroy
+   */
+  ngOnDestroy() {
+    this.weathersService.leaveRoom('weather');
   }
 }

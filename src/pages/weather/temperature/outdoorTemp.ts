@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { WeathersService } from '../../../providers/datas/weathers-service';
@@ -7,7 +7,7 @@ import { WeathersService } from '../../../providers/datas/weathers-service';
   selector: 'page-outdoorTemp',
   templateUrl: 'temperature.html'
 })
-export class OutdoorTempPage {
+export class OutdoorTempPage implements OnDestroy {
 
   public temperature: any;
   public extreme: any;
@@ -26,7 +26,9 @@ export class OutdoorTempPage {
         this.temperature = data
       });
     
-    this.weathersService.getUpdates('weather')
+    this.weathersService.joinRoom('weather');
+      
+    this.weathersService.getUpdates('weather', ':save')
       .subscribe(data => {
         if (data.type === 'outdoorTemp') {
           this.temperature = data;
@@ -66,4 +68,10 @@ export class OutdoorTempPage {
     return retour;
   }
 
+  /**
+   * Leave socket room on Destroy
+   */
+  ngOnDestroy() {
+    this.weathersService.leaveRoom('weather');
+  }
 }

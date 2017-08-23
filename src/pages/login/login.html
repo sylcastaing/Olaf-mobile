@@ -9,16 +9,16 @@
 <ion-content padding>
   <p color="danger" text-center>{{ loginError }}</p>
   <ion-list no-lines>
-    <form [formGroup]="loginForm">
-      <ion-item>
+    <form [formGroup]="loginForm" class="login-form">
+      <ion-item class="login-form-item">
         <ion-label floating><ion-icon name="archive" padding-right></ion-icon>Serveur</ion-label>
         <ion-input formControlName="server" type="email"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item class="login-form-item">
         <ion-label floating><ion-icon name="mail" padding-right></ion-icon>Email</ion-label>
         <ion-input formControlName="email" type="email"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item class="login-form-item">
         <ion-label floating><ion-icon name="lock" padding-right></ion-icon>Mot de passe</ion-label>
         <ion-input formControlName="password" type="password"></ion-input>
       </ion-item>

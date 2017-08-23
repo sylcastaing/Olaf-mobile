@@ -63,11 +63,15 @@ export class HttpService extends Http {
         if (!options) {
           options = {headers: new Headers()};
         }
-        options.headers.set('Authorization', `Bearer ${this._token}`);
+        if (this._token) {
+          options.headers.set('Authorization', `Bearer ${this._token}`);
+        }
         url = this._apiUrl + url;
 
       } else {
-        url.headers.set('Authorization', `Bearer ${this._token}`);
+        if (this._token) {
+          url.headers.set('Authorization', `Bearer ${this._token}`);
+        }
         url.url = this._apiUrl + url.url;
       }
 

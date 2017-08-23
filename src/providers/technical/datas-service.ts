@@ -3,6 +3,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { HttpService } from '../technical/http-service';
 
+import * as io from 'socket.io-client';
+
 /**
  * Custom Service Class
  * 
@@ -11,6 +13,8 @@ import { HttpService } from '../technical/http-service';
  * @class AuthService
  */
 export abstract class DatasService {
+
+  private socket: any;
 
   /**
    * Creates an instance of DatasService.
@@ -56,17 +60,77 @@ export abstract class DatasService {
     return Observable.throw(errMsg);
   }
 
-  public getUpdates(modelName: String) : Observable<any> {
+  /**
+   * Get update from model
+   * 
+   * @param {string} modelName - name of model
+   * @param {string} type - type of event, may be null
+   * @returns {Observable<any>} 
+   * @memberof DatasService
+   */
+  public getUpdates(modelName: string, type: string) : Observable<any> {
+    this.getSocket();
+
+    if (type === undefined || type === null) {
+      type = '';
+    }
+
     let observable = new Observable(observer => {
-      var socket = this.http.socket;
-      socket.on(modelName + ':save', (data) => {
+      var socket = this.socket;
+      socket.on(modelName + type, (data) => {
         observer.next(data);
       });
       return () => {
         socket.disconnect();
       };
     });
-
+    
     return observable;
+  }
+
+  /**
+   * Disconnect socket
+   * 
+   * @memberof DatasService
+   */
+  public closeSocket() : void {
+    this.socket.disconnect(0);
+    this.socket = null;
+  }
+
+  /**
+   * Joint the room x
+   * 
+   * @param {string} room 
+   * @memberof DatasService
+   */
+  public joinRoom(room: string) : void {
+    this.getSocket();
+
+    this.socket.emit('join-' + room);
+  }
+
+  /**
+   * Leave the room X
+   * 
+   * @param {string} room 
+   * @memberof DatasService
+   */
+  public leaveRoom(room: string) : void {
+    this.getSocket();
+
+    this.socket.emit('leave-' + room);
+  }
+
+  /**
+   * Create socket
+   */
+  private getSocket() : void {
+    if (this.socket === undefined || this.socket === null) {
+      this.socket = io('', {
+        ws: true,
+        query: 'token=' + localStorage.getItem('token')
+      });
+    }
   }
 }
